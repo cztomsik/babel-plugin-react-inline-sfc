@@ -59,7 +59,7 @@ module.exports = function reactInlineSfc({types: t, template}) {
   }
 
   function fixChildren(call) {
-    const props = call.get('arguments.1')
+    const props = call.get('arguments.0')
 
     // no props -> no children
     if ( ! props) {
@@ -73,9 +73,9 @@ module.exports = function reactInlineSfc({types: t, template}) {
     }
 
     // TODO: opt
-    props.replaceWith(template('Object.assign(LEFT, RIGHT)')({
-      LEFT: props.node,
-      RIGHT: t.objectProperty(t.identifier('children'), t.arrayExpression(children.map(c => c.node)))
+    props.replaceWith(template('Object.assign({}, PROPS, {children: CHILDREN})')({
+      PROPS: props.node,
+      CHILDREN: t.arrayExpression(children.map(c => c.node).filter(Boolean))
     }).expression)
   }
 }
