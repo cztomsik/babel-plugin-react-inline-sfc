@@ -1,6 +1,6 @@
 # react-inline-sfc
 
-    npm i react-inline-sfc
+    npm i babel-plugin-react-inline-sfc
 
 Inline (sort-of) your stateless functional components.
 
@@ -18,14 +18,14 @@ I'm not sure how much is this going to speed up typical react application with l
 - you have to `npm run eject` before
 - then edit `package.json` and update `babel` field to look like:
 
-    ...
-    "babel": {
-      "presets": [
-        "react-app"
-      ],
-      "plugins": ["react-inline-sfc"]
-    },
-    ...
+      ...
+      "babel": {
+        "presets": [
+          "react-app"
+        ],
+        "plugins": ["react-inline-sfc"]
+      },
+      ...
 
 
 ## How it works
