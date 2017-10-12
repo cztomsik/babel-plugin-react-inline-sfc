@@ -35,15 +35,18 @@ module.exports = function reactInlineSfc({types: t, template}) {
   function transform(call) {
     const h = call.get('callee')
     const Comp = call.get('arguments.0')
-    const _Comp = getHelper(Comp)
+    const CompBinding = Comp.scope.getBinding(Comp.node.name)
+    const _Comp = getHelper(Comp, CompBinding)
 
-    Comp.remove()
-    h.replaceWith(_Comp)
-    fixChildren(call)
+    if (CompBinding.constant) {
+      Comp.remove()
+      h.replaceWith(_Comp)
+      fixChildren(call)      
+    }
   }
 
-  function getHelper(Comp) {
-    const CompVar = Comp.scope.getBinding(Comp.node.name).path
+  function getHelper(Comp, CompBinding) {
+    const CompVar = CompBinding.path
 
     if ( ! CompVar._Comp) {
       const helperName = CompVar.scope.generateUidIdentifierBasedOnNode(CompVar.node)
