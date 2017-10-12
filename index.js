@@ -66,7 +66,8 @@ module.exports = function reactInlineSfc({types: t, template}) {
       return
     }
 
-    const children = props.container.slice(props.key)
+    const children = props.container.slice(props.key + 1)
+    debugger
 
     if ( ! children.length) {
       return
@@ -75,7 +76,7 @@ module.exports = function reactInlineSfc({types: t, template}) {
     // TODO: opt
     props.replaceWith(template('Object.assign({}, PROPS, {children: CHILDREN})')({
       PROPS: props.node,
-      CHILDREN: t.arrayExpression(children.map(c => c.node).filter(Boolean))
+      CHILDREN: t.arrayExpression(children)
     }).expression)
   }
 }
